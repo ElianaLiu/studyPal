@@ -1,1 +1,1 @@
-# studyPay
+# studyPal
