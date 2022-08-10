@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import AddQuestionPage from "./AddQuestionPage";
-
+import SignInPage from "./SignInPage";
+import HomePage from "./HomePage";
+import MyCollectionPage from "./MyCollectionPage";
 const App = () => {
 
   return (
@@ -10,8 +12,10 @@ const App = () => {
       {/* <Header /> */}
       <Main>
         <Routes>
-          {/* <Route exact path="/" element={<HomePage />} /> */}
+          <Route exact path="/" element={<HomePage />} />
+          <Route exact path="/Sign-in" element={<SignInPage />} />
           <Route path="/add-question" element={<AddQuestionPage />} />
+          <Route path="/my-collections" element={<MyCollectionPage />} />
         </Routes>
       </Main>
       {/* <Footer /> */}
@@ -22,3 +26,5 @@ const Main = styled.div`
 `;
 
 export default App;
+
+

@@ -1,11 +1,13 @@
 const express = require('express');
 const PORT = 4000;
+const {
+    getAllQuestions,
+} = require("./Handler");
 
 express()
 
-    .get("/", (req,res) => {
-        res.status(200).json({status: 200, message: "hello!"});
-    })
+    // Endpoints for retrieving all questions
+    .get("/api/all-questions", getAllQuestions)
 
 
     .listen(PORT, () => console.log(`Listening on port ${PORT}`));
