@@ -1,6 +1,9 @@
 import styled from "styled-components";
-import video from "../data/Beach - 10805.mp4";
+import video from "../data/video- background.mp4";
+
 import { useNavigate } from "react-router-dom";
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
 
 // PAGE COMPONENT FOR "/" route
 // --------------------------------------------
@@ -18,7 +21,7 @@ const SignInPage = () => {
           StudyPal is a web application that saves a collection of questions from exercises, quizzes, and exams that you got wrong.  It helps you find your weak topics and identify which types of questions you missed.
           </Content>
           <ButtonDiv>
-            <SignInButton
+            {/* <SignInButton
                 onClick={() => {
                 navigate("/Sign-in");
                 }}
@@ -31,7 +34,10 @@ const SignInPage = () => {
                 }}
             >
                 Register
-            </SignInButton>
+            </SignInButton> */}
+            <div>Auth0Provider</div>
+            <LoginButton />
+            <LogoutButton />
           </ButtonDiv>
         </ContentDiv>
       </VideoDiv>
@@ -65,7 +71,7 @@ const Video = styled.video`
   height: 100%;
   position: absolute;
   object-fit: cover;
-  z-index: 0;
+  z-index: -1;
 `;
 
 const ContentDiv = styled.div`
@@ -75,7 +81,7 @@ const ContentDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  color: Black;
+  color: white;
   padding: 0 0 2% 2%;
 `;
 
@@ -96,15 +102,5 @@ const ContentTitle = styled.h1`
   margin-bottom: 5%;
 `;
 
-const SignInButton = styled.button`
-  width: 200px;
-  height: 30px;
-  background-color: white;
-  color: black;
-  font: inherit;
-  border: none;
-  cursor: pointer;
-  font-weight: 700;
-`;
 
 export default SignInPage;

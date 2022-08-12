@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import video from "../data/Beach - 10805.mp4";
+import video from "../data/video- background.mp4";
 import { useNavigate } from "react-router-dom";
 
 // PAGE COMPONENT FOR "/" route

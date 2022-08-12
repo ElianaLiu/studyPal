@@ -4,16 +4,18 @@ import AddQuestionPage from "./AddQuestionPage";
 import SignInPage from "./SignInPage";
 import HomePage from "./HomePage";
 import MyCollectionPage from "./MyCollectionPage";
+import { Auth0Provider } from "@auth0/auth0-react";
+
 const App = () => {
 
   return (
     <BrowserRouter>
       {/* <GlobalStyles /> */}
-      {/* <Header /> */}
+      {/* <Header /ß> */}
       <Main>
         <Routes>
-          <Route exact path="/" element={<HomePage />} />
-          <Route exact path="/Sign-in" element={<SignInPage />} />
+          <Route exact path="/" element={<SignInPage />} />
+          <Route exact path="/dashboard" element={<HomePage />} />
           <Route path="/add-question" element={<AddQuestionPage />} />
           <Route path="/my-collections" element={<MyCollectionPage />} />
         </Routes>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const AddQuestionPage = () =>{
@@ -14,7 +14,7 @@ const AddQuestionPage = () =>{
             body: JSON.stringify({question: question, answer: answer})
         };
 
-        // fetch("/api/tweet", requestOptions)
+        // fetch("https://api.ocr.space/parse/image")
         // .then(response => response.json())
         // .then(data => {
         //     console.log(data);
@@ -22,6 +22,48 @@ const AddQuestionPage = () =>{
         // });
         // setValue("");
     };
+
+    const uploadImage = async (e, flag) => {
+        const file = e.target.files[0];
+        const base64 = await convertBase64(file);
+        console.log(base64);
+        console.log(process.env.REACT_APP_OCR_APIKEY)
+        
+        const formData = new FormData();
+        formData.append('base64Image', base64)
+
+        fetch("https://api.ocr.space/parse/image", {
+            // mode: 'no-cors',
+            method: "POST",
+            headers: {
+                apikey: process.env.REACT_APP_OCR_APIKEY
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.ParsedResults[0].ParsedText);
+            
+            flag == 1 ? setQuestion(data.ParsedResults[0].ParsedText) : setAnswer(data.ParsedResults[0].ParsedText)
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+            fileReader.onerror = ((error) => {
+                reject(error)
+            });
+        })
+    }
 
     return (<>
     <Wrapper>
@@ -36,13 +78,21 @@ const AddQuestionPage = () =>{
                     className="input"
                     type='textarea'
                     value={question}
-                    onChange={(ev) => setQuestion(ev.target.value)} />           
+                    onChange={(ev) => setQuestion(ev.target.value)} /> 
+                <input 
+                type="file"
+                onChange={(e) => uploadImage(e, 1)} />          
             </QuestionWrapper>
+            <QuestionWrapper>
             <Input
                 className="input"
                 type='textarea'
                 value={answer}
                 onChange={(ev) => setAnswer(ev.target.value)} />
+            <input 
+                type="file"
+                onChange={(e) => uploadImage(e, 2)} />
+            </QuestionWrapper>
             <Submit type="submit" value="submit" />
         </Form>
     </Wrapper>
