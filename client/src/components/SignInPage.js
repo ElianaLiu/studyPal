@@ -4,16 +4,24 @@ import video from "../data/video- background.mp4";
 import { useNavigate } from "react-router-dom";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
+import { useContext } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { GlobalContext } from "./GlobalContext";
+import Header from "./Header";
 
 // PAGE COMPONENT FOR "/" route
 // --------------------------------------------
 
 const SignInPage = () => {
+  const {questionCollection, status} = useContext(GlobalContext);
+  const { isAuthenticated } = useAuth0();
   let navigate = useNavigate();
 
   return (
     <Wrapper>
+      
       <VideoDiv>
+        <Header />
         <Video src={video} autoPlay loop muted></Video>
         <ContentDiv>
           <ContentTitle>StudyPal</ContentTitle>
@@ -35,9 +43,9 @@ const SignInPage = () => {
             >
                 Register
             </SignInButton> */}
-            <div>Auth0Provider</div>
-            <LoginButton />
-            <LogoutButton />
+            <div></div>
+            <LoginButton header={false}/>
+            <LogoutButton header={false}/>
           </ButtonDiv>
         </ContentDiv>
       </VideoDiv>
@@ -60,7 +68,6 @@ const VideoDiv = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  margin-bottom: 25px;
   justify-content: center;
   align-items: center;
   position: relative; ;
@@ -91,16 +98,20 @@ const Content = styled.p`
 `;
 
 const ButtonDiv = styled.div`
-width: 100%;
-display: flex;
-flex-direction: row;
-justify-content: space-between;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const ContentTitle = styled.h1`
   font-size: 45px;
   margin-bottom: 5%;
 `;
+
+const MyCollection = styled.button`
+
+`
 
 
 export default SignInPage;

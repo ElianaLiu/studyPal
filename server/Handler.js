@@ -10,19 +10,25 @@ const options = {
     useUnifiedTopology: true,
 };
 
-// returns a list of all questions
+// returns a list of all questions by user
 const getAllQuestions = async (req, res) => {
+    const _id = req.params.userId;
     const client = new MongoClient(MONGO_URI, options);
 
     try {
         await client.connect();
         const db = client.db("StudyPal");
-        const result = await db.collection("questions").find().toArray();
+        const result = await db.collection("questions").findOne({_id});
         if (result) {
-            res.status(200).json({ status: 200, data: result });
+            res.status(200).json({ status: 200, data: result.questions});
         } else {
-            res.status(404).json({ status: 404, message: "Items not found" });
-        }  
+            const questions = {
+                _id: _id,
+                questions: []
+            }
+            await db.collection("questions").insertOne(questions);
+            res.status(200).json({ status: 200, data: questions.questions });
+        }
     } catch (err) {
         console.log(err.stack);
         res.status(500).json({ status: 500, message: err.message });
@@ -32,21 +38,32 @@ const getAllQuestions = async (req, res) => {
 };
 
 const addQuestion = async (req, res) => {
+    const questionContent = req.body; // {subject: subject, stem: stem, question: question, answer: answer}
+    console.log(questionContent)
+    const _id = req.params.userId;
     const client = new MongoClient(MONGO_URI, options);
 
     try {
         await client.connect();
         const db = client.db("StudyPal");
-        const { stem, question, answer } = req.body;
-        const result = await db.collection("questions").insertOne({ stem:stem, question: uuidv4(), items });
+        const result = await db.collection("questions").findOne({_id});
         if (result) {
-            res.status(200).json({ status: 200, data: result });
+            // console.log(result.questions)
+            result.questions.push({_id: uuidv4(), ...questionContent}),
+            await db.collection("questions").updateOne({ _id }, { $set: result });
+            res.status(201).json({ status: 200, data: result });
         } else {
-            res.status(404).json({ status: 404, message: "Items not found" });
+            const questions = {
+                _id: _id,
+                questions: [{_id: uuidv4(), ...questionContent}]
+            }
+            await db.collection("questions").insertOne(questions);
+            res.status(201).json({ status: 200, data: questions });
         }  
+        
     } catch (err) {
         console.log(err.stack);
-        res.status(500).json({ status: 500, message: err.message });
+        res.status(500).json({ status: 500, data: req.body, message: err.message });
     }
 
     client.close()

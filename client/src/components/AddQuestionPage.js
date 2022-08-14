@@ -1,10 +1,20 @@
-import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import ErrorPage from "./ErrorPage";
+import { GlobalContext } from "./GlobalContext";
+import Header from "./Header";
+import video from "../data/video- background.mp4";
 
 const AddQuestionPage = () =>{
+    const { userId, updateCollection, setUpdateCollection } = useContext(GlobalContext);
+    const { isAuthenticated } = useAuth0();
+
     const [stem, setStem] = useState("");
+    const [subject, setSubject] = useState("");
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
+
     const handleSubmit = (e) => {
         e.preventDefault()
 
@@ -65,37 +75,88 @@ const AddQuestionPage = () =>{
         })
     }
 
-    return (<>
+    const submitQuestion = (e) => {
+        e.preventDefault()
+
+        const newQuestion = {
+            stem: stem,
+            subject: subject.toUpperCase(),
+            question: question,
+            answer: answer
+        };
+
+        console.log(newQuestion);
+
+        fetch(`/api/add-question/${userId}`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newQuestion)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.data);
+            setUpdateCollection(!updateCollection);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+        setStem("");
+        setSubject("");
+        setQuestion("");
+        setAnswer("");
+    }
+
+    return (
+    <>
     <Wrapper>
-        <Form onSubmit={handleSubmit}>
-            <QuestionWrapper>
-                <Label>ewf</Label>
+        <VideoDiv>
+            <Header />
+            <Video src={video} autoPlay loop muted></Video>
+        {(isAuthenticated && userId) ? 
+        
+            <Form onSubmit={handleSubmit}>
+                <QuestionWrapper>
+                    <Label>Stem</Label>
+                    <InputStem
+                        type='textarea'
+                        value={stem}
+                        onChange={(ev) => setStem(ev.target.value)} />
+                    <Label>Question</Label>
+                    <Input
+                        className="input"
+                        type='textarea'
+                        value={question}
+                        onChange={(ev) => setQuestion(ev.target.value)} /> 
+                    <input 
+                    type="file"
+                    onChange={(e) => uploadImage(e, 1)} />          
+                </QuestionWrapper>
+                <QuestionWrapper>
+                <Label>Category</Label>
                 <InputStem
                     type='textarea'
-                    value={stem}
-                    onChange={(ev) => setStem(ev.target.value)} />
+                    value={subject}
+                    onChange={(ev) => setSubject(ev.target.value)} />
+                <Label>Answer</Label>
                 <Input
                     className="input"
                     type='textarea'
-                    value={question}
-                    onChange={(ev) => setQuestion(ev.target.value)} /> 
+                    value={answer}
+                    onChange={(ev) => setAnswer(ev.target.value)} />
                 <input 
-                type="file"
-                onChange={(e) => uploadImage(e, 1)} />          
-            </QuestionWrapper>
-            <QuestionWrapper>
-            <Input
-                className="input"
-                type='textarea'
-                value={answer}
-                onChange={(ev) => setAnswer(ev.target.value)} />
-            <input 
-                type="file"
-                onChange={(e) => uploadImage(e, 2)} />
-            </QuestionWrapper>
-            <Submit type="submit" value="submit" />
-        </Form>
-    </Wrapper>
+                    type="file"
+                    onChange={(e) => uploadImage(e, 2)} />
+                </QuestionWrapper>
+                <Submit
+                type="submit"
+                value="submit"
+                onClick={submitQuestion}
+                disabled={(question === "" || answer === "" || subject === "")} />
+            </Form>:
+        <ErrorPage />}
+        </VideoDiv>
+        </Wrapper>
     </>)
 };
 
@@ -104,19 +165,41 @@ display: flex;
 flex-direction: row;
 justify-content: center;
 align-items: flex-end;
+width: 100vw;
+height: 100vh;
+`;
+
+const VideoDiv = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+position: relative; 
+`;
+
+const Video = styled.video`
+width: 100%;
+height: 100%;
+position: absolute;
+object-fit: cover;
+z-index: -1;
 `;
 
 const Label = styled.label`
+font-weight: 700;
+font-size: larger;
 `;
 
 const Form = styled.form`
-border: solid 2px black;
+border: solid 2px white;
 width: 90vw;
 height: 70vh;
 display: flex;
 flex-direction: row;
 justify-content: center;
 align-items: flex-end;
+color: white;
 `;
 
 const QuestionWrapper = styled.div`
@@ -129,6 +212,7 @@ align-items: center;
 `;
 
 const InputStem = styled.textarea`
+margin-bottom: 5px;
 `;
 
 const Input = styled.textarea`
@@ -137,6 +221,7 @@ width: 45%;
 height: 100%;
 padding-top: 0;
 font-size: 22px;
+margin-bottom: 10px;
 
 &:focus {
 border-color:blue ;
