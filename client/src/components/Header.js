@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import logo from '../data/kisspng-education-school-logo-learning-teaching-5ac3affb224110.4004622015227740111403.png'
@@ -6,18 +7,23 @@ import LogoutButton from './LogoutButton'
 
 const Header = () => {
     let navigate = useNavigate()
+
+    const [hover, setHover] = useState(false)
+    
     return (
-        <Nav>
+        <Nav onMouseEnter={()=>{setHover(true)}} onMouseLeave={() => {setHover(false)}}>
             <Logo src={logo} onClick={() => navigate("/")}/>
             <UL>
-                <MyCollection onClick={() => {navigate("/my-collections")}}>
+                <Button onClick={() => {navigate("/my-collections")}}>
                     My Collection
-                </MyCollection>
-                <AddQuestion onClick={() => {navigate("/add-question")}}>
+                </Button>
+                <Button onClick={() => {navigate("/add-question")}}>
                     Add Question
-                </AddQuestion>
-                <LoginButton header={true}/>
-                <LogoutButton header={true}/>
+                </Button>
+                <LoginButtonDiv>
+                    <LoginButton header={true} hover={hover} />
+                    <LogoutButton header={true} hover={hover}/>
+                </LoginButtonDiv>
             </UL>
         </Nav>
     )
@@ -31,43 +37,48 @@ const Nav = styled.nav`
 display: flex;
 flex-direction: row;
 justify-content: space-between;
+align-items: center;
 width: 100%;
 left: 0;
 top: 0;
 position: absolute;
+transition: background 1s;
+
+&:hover{
+background: rgba(255,255,255, 0.8);
+}
 `
 
 const Logo = styled.img`
 width: 5vw;
 cursor: pointer;
+margin: 20px;
 `
 
-const UL = styled.ul`
-
+const UL = styled.div`
+display: flex;
+flex-direction: row;
 `
 
-const MyCollection = styled.button`
+const Button = styled.button`
 width: 200px;
 height: 30px;
 background-color: transparent;
-color: white;
+color: #fafafa;
 font: inherit;
 border: none;
 cursor: pointer;
 font-weight: 700;
 margin-right: 20px;
-`
 
-const AddQuestion = styled.button`
-width: 200px;
-height: 30px;
-background-color: transparent;
-color: white;
-font: inherit;
-border: none;
-cursor: pointer;
-font-weight: 700;
-margin-right: 20px;
+${Nav}:hover &{
+    color: #333;
+}
+`
+const LoginButtonDiv = styled.div`
+${Nav}:hover &{
+    color: #333;
+}
 `
 
 export default Header;
