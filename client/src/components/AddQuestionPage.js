@@ -192,14 +192,13 @@ font-size: larger;
 `;
 
 const Form = styled.form`
-border: solid 2px white;
-width: 90vw;
+width: 80vw;
 height: 70vh;
 display: flex;
 flex-direction: row;
 justify-content: center;
 align-items: flex-end;
-color: white;
+color: wheat;
 `;
 
 const QuestionWrapper = styled.div`
@@ -209,19 +208,26 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
+color: #fafafa;
 `;
 
 const InputStem = styled.textarea`
 margin-bottom: 5px;
+width: 25vw;
+border-radius: 10px;
+background-color: rgba(255,255,255, 0.8);
 `;
 
 const Input = styled.textarea`
-border: solid 2px red;
 width: 45%;
 height: 100%;
 padding-top: 0;
 font-size: 22px;
 margin-bottom: 10px;
+width: 25vw;
+border-radius: 10px;
+background-color: rgba(255,255,255, 0.8);
+
 
 &:focus {
 border-color:blue ;
@@ -231,15 +237,16 @@ box-shadow: 2px 2px 8px blue;
 `;
 
 const Submit = styled.input`
-height: 4vh;
-width: 6vw;
-background-color: hsl(258deg, 100%, 50%);
-color: white;
+height: 30px;
+width: 150px;
+background-color: #fafafa;
+color: #333;
 font-size: 20px;
 font-weight: 700;
 border-radius: 20px;
 margin-top: 16vh;
 margin-left: 3vw;
+cursor: pointer;
 
 &:disabled {
 filter: contrast(40%);

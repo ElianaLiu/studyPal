@@ -70,6 +70,8 @@ border: none;
 cursor: pointer;
 font-weight: 700;
 margin-right: 20px;
+font-family:'Jost', sans-serif;
+font-size: 18px;
 
 ${Nav}:hover &{
     color: #333;

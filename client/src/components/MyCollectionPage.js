@@ -7,6 +7,7 @@ import './collection.css'
 import ErrorPage from "./ErrorPage";
 import Header from "./Header";
 import video from "../data/video- background.mp4";
+import GlobalStyles from "./GlobalStyles";
 
 const MyCollectionPage = () => {
     const {questionCollection, status} = useContext(GlobalContext);
@@ -46,14 +47,12 @@ display: flex;
 flex-direction: row;
 justify-content: center;
 align-items: flex-end;
-padding-top: 10px;
 width: 100vw;
-height: 100vh;
 `;
 
 const VideoDiv = styled.div`
 width: 100%;
-height: 100%;
+height: 100vh;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -69,6 +68,8 @@ z-index: -1;
 `;
 
 const ContentWrapper = styled.div`
+display: flex;
+flex-wrap: wrap;
 `
 
 const Questions = styled.div`

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import GlobalStyles from "./GlobalStyles";
 
 const Flashcard = ({content}) => {
     const [flip, setFlip] = useState(false);
@@ -66,11 +67,13 @@ backface-visibility: hidden;
 `
 
 const Stem = styled.div`
-
+margin-bottom: 20px;
+font-weight: 700;
 `
 
 const Question = styled.div`
-
+margin-bottom: 10px;
+line-height: 1.2;
 `
 
 const Answer = styled.div`

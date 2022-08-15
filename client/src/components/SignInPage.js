@@ -90,11 +90,13 @@ const ContentDiv = styled.div`
   align-items: flex-start;
   color: white;
   padding: 0 0 2% 2%;
+  font-family:'Jost', sans-serif;
+
 `;
 
 const Content = styled.p`
   margin-bottom: 5%;
-  font-size: 30px;
+  font-size: 24px;
 `;
 
 const ButtonDiv = styled.div`

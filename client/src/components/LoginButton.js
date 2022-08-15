@@ -24,6 +24,8 @@ const Button = styled.button`
     border: none;
     cursor: pointer;
     font-weight: 700;
+    font-size: 18px;
+    font-family:'Jost', sans-serif;
 
     ${({header}) => header && `--background-color: transparent; --font-color: white;`}
 
