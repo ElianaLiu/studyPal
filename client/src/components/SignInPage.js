@@ -29,20 +29,6 @@ const SignInPage = () => {
           StudyPal is a web application that saves a collection of questions from exercises, quizzes, and exams that you got wrong.  It helps you find your weak topics and identify which types of questions you missed.
           </Content>
           <ButtonDiv>
-            {/* <SignInButton
-                onClick={() => {
-                navigate("/Sign-in");
-                }}
-            >
-                Sign in
-            </SignInButton>
-            <SignInButton
-                onClick={() => {
-                navigate("/Sign-in");
-                }}
-            >
-                Register
-            </SignInButton> */}
             <div></div>
             <LoginButton header={false}/>
             <LogoutButton header={false}/>

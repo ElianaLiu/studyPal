@@ -4,8 +4,6 @@ import AddQuestionPage from "./AddQuestionPage";
 import SignInPage from "./SignInPage";
 import HomePage from "./HomePage";
 import MyCollectionPage from "./MyCollectionPage";
-import { Auth0Provider } from "@auth0/auth0-react";
-import GlobalStyles from "./GlobalStyles";
 
 const App = () => {
 

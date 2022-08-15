@@ -7,7 +7,6 @@ import './collection.css'
 import ErrorPage from "./ErrorPage";
 import Header from "./Header";
 import video from "../data/video- background.mp4";
-import GlobalStyles from "./GlobalStyles";
 
 const MyCollectionPage = () => {
     const {questionCollection, status} = useContext(GlobalContext);

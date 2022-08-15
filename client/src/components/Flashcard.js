@@ -1,6 +1,5 @@
 import { useState } from "react";
 import styled from "styled-components";
-import GlobalStyles from "./GlobalStyles";
 
 const Flashcard = ({content}) => {
     const [flip, setFlip] = useState(false);
