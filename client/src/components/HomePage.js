@@ -1,60 +1,59 @@
-import styled from "styled-components";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useContext, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
+import { GlobalContext } from "./GlobalContext";
+import Header from "./Header";
 import video from "../data/video- background.mp4";
 import { useNavigate } from "react-router-dom";
 
-// PAGE COMPONENT FOR "/" route
-// --------------------------------------------
-
 const HomePage = () => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const {status} = useContext(GlobalContext);
+    const { isAuthenticated } = useAuth0();
 
-    return (
-    <Wrapper>
-        <VideoDiv>
-        <Video src={video} autoPlay loop muted></Video>
-        <ContentDiv>
-            
-            <ButtonDiv>
-            <SignInButton
-                onClick={() => {
-                navigate("/add-question");
-                }}
-            >
+    return(
+        <>
+        <Wrapper>
+            <VideoDiv>
+                <Header />
+                <Video src={video} autoPlay loop muted></Video>
+        {isAuthenticated &&
+        <ContentWrapper>
+            {(status === "idle") &&
+            <>
+            <Button onClick={() => {navigate("/add-question")}}>
                 Add a question
-            </SignInButton>
-            <SignInButton
-                onClick={() => {
-                navigate("/my-collections");
-                }}
-            >
+            </Button>
+            <Button onClick={() => {navigate("/my-collections")}}>
                 Go to my collection
-            </SignInButton>
-            </ButtonDiv>
-        </ContentDiv>
+            </Button>
+            </> }
+            {status === "loading" && 
+            <Loading>
+                <Circle /> 
+            </Loading>}
+        </ContentWrapper>}
         </VideoDiv>
-    </Wrapper>
-    );
+        </Wrapper>
+        </>
+    )
 };
 
-// --------------------------------------------
-
 const Wrapper = styled.div`
-width: 100vw;
-height: 100vh;
 display: flex;
-flex-direction: column;
-align-items: center;
+flex-direction: row;
 justify-content: center;
+align-items: flex-end;
+width: 100vw;
 `;
 
 const VideoDiv = styled.div`
 width: 100%;
-height: 100%;
+height: 100vh;
 display: flex;
-margin-bottom: 25px;
 justify-content: center;
 align-items: center;
-position: relative; ;
+position: relative; 
 `;
 
 const Video = styled.video`
@@ -62,46 +61,45 @@ width: 100%;
 height: 100%;
 position: absolute;
 object-fit: cover;
-z-index: 0;
+z-index: -1;
 `;
 
-const ContentDiv = styled.div`
-z-index: 1;
-width: 50%;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: flex-start;
-color: Black;
-padding: 0 0 2% 2%;
-`;
-
-const Content = styled.p`
-margin-bottom: 5%;
-font-size: 30px;
-`;
-
-const ButtonDiv = styled.div`
-width: 100%;
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-`;
-
-const ContentTitle = styled.h1`
-font-size: 45px;
-margin-bottom: 5%;
-`;
-
-const SignInButton = styled.button`
-width: 200px;
-height: 30px;
-background-color: white;
-color: black;
+const Button = styled.button`
+width: 400px;
+height: 200px;
+margin-right: 30px;
+background-color: rgba(255,255,255, 0.8);
+color: var(--font-color, #333);
 font: inherit;
 border: none;
 cursor: pointer;
-font-weight: 700;
-`;
+font-weight: 500;
+font-size: 18px;
+font-family:'Jost', sans-serif;
+border-radius: 40px;
+`
+
+const ContentWrapper = styled.div`
+`
+
+
+const Loading = styled.div`
+
+`
+
+const circleSpin = keyframes`
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+`
+
+const Circle = styled.div`
+border: 8px solid #f3f3f3;
+border-top: 8px solid #3498db;
+border-radius: 50%;
+width: 150px;
+height: 150px;
+animation: ${circleSpin} 1s ease-in-out infinite;
+margin: 0 auto;
+`
 
 export default HomePage;
