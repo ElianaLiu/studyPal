@@ -15,10 +15,10 @@ const Header = () => {
             <Logo src={logo} onClick={() => navigate("/")}/>
             <UL>
                 <Button onClick={() => {navigate("/my-collections")}}>
-                    My Collection
+                    My collections
                 </Button>
                 <Button onClick={() => {navigate("/add-question")}}>
-                    Add Question
+                    Add a question
                 </Button>
                 <LoginButtonDiv>
                     <LoginButton header={true} hover={hover} />

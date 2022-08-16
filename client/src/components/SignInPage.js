@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import video from "../data/video- background.mp4";
 
 import { useNavigate } from "react-router-dom";
@@ -29,8 +29,10 @@ const SignInPage = () => {
           StudyPal is a web application that saves a collection of questions from exercises, quizzes, and exams that you got wrong.  It helps you find your weak topics and identify which types of questions you missed.
           </Content>
           <ButtonDiv>
-            <div></div>
-            <LoginButton header={false}/>
+            {isAuthenticated? 
+            <GoToYourPageButton onClick={() => {navigate("/button-page")}}>Go to page</GoToYourPageButton>
+          : <></>}
+            <LoginButton header={false} />
             <LogoutButton header={false}/>
           </ButtonDiv>
         </ContentDiv>
@@ -67,6 +69,16 @@ const Video = styled.video`
   z-index: -1;
 `;
 
+const slideleft = keyframes`
+  0% {
+      transform: translate(100px);
+      opacity: 0;
+    }
+
+  100% {transform: translate(0px);
+      opacity: 1; }
+`
+
 const ContentDiv = styled.div`
   z-index: 1;
   width: 50%;
@@ -77,7 +89,7 @@ const ContentDiv = styled.div`
   color: white;
   padding: 0 0 2% 2%;
   font-family:'Jost', sans-serif;
-
+  animation: ${slideleft} 1s linear forwards;
 `;
 
 const Content = styled.p`
@@ -92,10 +104,19 @@ const ButtonDiv = styled.div`
   justify-content: space-between;
 `;
 
+const GoToYourPageButton = styled.button`
+`
+
 const ContentTitle = styled.h1`
   font-size: 45px;
   margin-bottom: 5%;
 `;
+
+
+
+const AnimatedContentTitle = styled(ContentTitle)`
+  animation: ${slideleft} 1s linear forwards;
+`
 
 const MyCollection = styled.button`
 

@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import { GlobalContext } from "./GlobalContext";
 import Header from "./Header";
@@ -14,24 +15,7 @@ const AddQuestionPage = () =>{
     const [subject, setSubject] = useState("");
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({question: question, answer: answer})
-        };
-
-        // fetch("https://api.ocr.space/parse/image")
-        // .then(response => response.json())
-        // .then(data => {
-        //     console.log(data);
-        //     setUpdateFeed(!updateFeed);
-        // });
-        // setValue("");
-    };
+    const navigate = useNavigate();
 
     const uploadImage = async (e, flag) => {
         const file = e.target.files[0];
@@ -40,7 +24,7 @@ const AddQuestionPage = () =>{
         console.log(process.env.REACT_APP_OCR_APIKEY)
         
         const formData = new FormData();
-        formData.append('base64Image', base64)
+        formData.append('base64Image', base64);
 
         fetch("https://api.ocr.space/parse/image", {
             // mode: 'no-cors',
@@ -52,6 +36,7 @@ const AddQuestionPage = () =>{
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             console.log(data.ParsedResults[0].ParsedText);
             
             flag == 1 ? setQuestion(data.ParsedResults[0].ParsedText) : setAnswer(data.ParsedResults[0].ParsedText)
@@ -105,6 +90,7 @@ const AddQuestionPage = () =>{
         setSubject("");
         setQuestion("");
         setAnswer("");
+        navigate("/button-page");
     }
 
     return (
@@ -115,7 +101,7 @@ const AddQuestionPage = () =>{
             <Video src={video} autoPlay loop muted></Video>
         {(isAuthenticated && userId) ? 
         
-            <Form onSubmit={handleSubmit}>
+            <Form>
                 <QuestionWrapper>
                     <Label>Stem</Label>
                     <InputStem
