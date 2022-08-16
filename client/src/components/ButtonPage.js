@@ -65,18 +65,23 @@ z-index: -1;
 `;
 
 const Button = styled.button`
+width: 400px;
+height: 200px;
+margin-right: 30px;
+background-color: rgba(255,255,255, 0.8);
+color: var(--font-color, #333);
+font: inherit;
+border: none;
+cursor: pointer;
+font-weight: 500;
+font-size: 18px;
+font-family:'Jost', sans-serif;
+border-radius: 40px;
 `
 
 const ContentWrapper = styled.div`
 `
 
-const Questions = styled.div`
-display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-align-items: center;
-justify-content: center;
-`
 
 const Loading = styled.div`
 

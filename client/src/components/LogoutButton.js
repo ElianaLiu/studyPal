@@ -20,7 +20,7 @@ const Button = styled.button`
     font: inherit;
     border: none;
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 18px;
     font-family:'Jost', sans-serif;
 

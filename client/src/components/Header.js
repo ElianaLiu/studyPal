@@ -68,7 +68,7 @@ color: #fafafa;
 font: inherit;
 border: none;
 cursor: pointer;
-font-weight: 700;
+font-weight: 600;
 margin-right: 20px;
 font-family:'Jost', sans-serif;
 font-size: 18px;
