@@ -105,6 +105,17 @@ const ButtonDiv = styled.div`
 `;
 
 const GoToYourPageButton = styled.button`
+    width: 200px;
+    height: 30px;
+    background-color: var(--background-color, white);
+    color: var(--font-color, #333);
+    font: inherit;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 18px;
+    font-family:'Jost', sans-serif;
+    border-radius: 40px;
 `
 
 const ContentTitle = styled.h1`
