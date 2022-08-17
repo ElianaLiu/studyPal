@@ -37,6 +37,7 @@ const getAllQuestions = async (req, res) => {
     client.close()
 };
 
+// Endpoints for adding a question
 const addQuestion = async (req, res) => {
     const questionContent = req.body; // {subject: subject, stem: stem, question: question, answer: answer}
     console.log(questionContent)
@@ -69,8 +70,42 @@ const addQuestion = async (req, res) => {
     client.close()
 };
 
+// Endpoints for deleting a question
+const deleteQuestion = async (req, res) => {
+    const questionId = req.body._id;
+    const _id = req.params.userId;
+    const client = new MongoClient(MONGO_URI, options);
+
+    try {
+        await client.connect();
+        const db = client.db("StudyPal");
+        const result = await db.collection("questions").findOne({_id});
+        if (result) {
+            // console.log(result.questions)
+            let newQuestions = result.questions.filter((item) => {
+                return item._id !== questionId;
+            });
+            if (result.questions.length > newQuestions.length) {
+                await db.collection("questions").updateOne({ _id }, { $set: {questions: newQuestions, _id: _id} });
+                res.status(200).json({ status: 200, data: {questions: newQuestions, _id: _id} });
+            } else {
+                res.status(304).json({ status: 304, data: result, message: "Question doesn't exist. No change" });
+            }
+        } else {
+            res.status(404).json({ status: 404, data: _id, message: "User not found" });
+        }  
+        
+    } catch (err) {
+        console.log(err.stack);
+        res.status(500).json({ status: 500, data: req.body, message: err.message });
+    }
+
+    client.close()
+};
+
 
 module.exports = {
     getAllQuestions,
     addQuestion,
+    deleteQuestion,
 };

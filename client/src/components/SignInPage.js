@@ -30,10 +30,10 @@ const SignInPage = () => {
           </Content>
           <ButtonDiv>
             {isAuthenticated? 
-            <GoToYourPageButton onClick={() => {navigate("/button-page")}}>Go to page</GoToYourPageButton>
+            <GoToYourPageButton onClick={() => {navigate("/homepage")}}>Go to your page</GoToYourPageButton>
           : <></>}
             <LoginButton header={false} />
-            <LogoutButton header={false}/>
+            {/* <LogoutButton header={false}/> */}
           </ButtonDiv>
         </ContentDiv>
       </VideoDiv>
@@ -122,7 +122,6 @@ const ContentTitle = styled.h1`
   font-size: 45px;
   margin-bottom: 5%;
 `;
-
 
 
 const AnimatedContentTitle = styled(ContentTitle)`

@@ -90,7 +90,7 @@ const AddQuestionPage = () =>{
         setSubject("");
         setQuestion("");
         setAnswer("");
-        navigate("/button-page");
+        navigate("/homepage");
     }
 
     return (

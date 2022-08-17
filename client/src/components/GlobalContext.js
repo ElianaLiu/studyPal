@@ -6,9 +6,17 @@ export const GlobalContext = createContext(null);
 export const GlobalContextProvider = ({children}) => {
     const { isAuthenticated, user } = useAuth0();
     const [userId, setUserId] = useState(null);
+    const [userName, setUserName] = useState(null);
     const [questionCollection, setQuestionCollection] = useState(null);
     const [status, setStatus] = useState("loading");
     const [updateCollection, setUpdateCollection] = useState(false);
+    const [subjectList, setSubjectList] = useState(null)
+
+    const getSubjects = (data) => {
+        let subjects = [...new Set(data.map(item => item.subject))];
+        console.log(subjects);
+        setSubjectList(subjects);
+    }
 
     useEffect(() => {
         if (userId) {
@@ -18,6 +26,7 @@ export const GlobalContextProvider = ({children}) => {
             .then(data => {
                 console.log(data);
                 setQuestionCollection(data.data);
+                getSubjects(data.data)
                 setStatus("idle")
             })
             .catch((err)=>{
@@ -31,8 +40,9 @@ export const GlobalContextProvider = ({children}) => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            console.log(user)
+            console.log(user);
             setUserId(user.sub);
+            setUserName(user.given_name);
         } else {
             setUserId(null)
         }
@@ -48,7 +58,11 @@ export const GlobalContextProvider = ({children}) => {
             questionCollection,
             setQuestionCollection,
             updateCollection,
-            setUpdateCollection
+            setUpdateCollection,
+            userName,
+            setUserName,
+            subjectList,
+            setSubjectList,
         }}
         >
         {children}

@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
+import {GlobalContext} from "./GlobalContext";
 
 const LogoutButton = ({header, hover}) => {
     const { logout, isAuthenticated } = useAuth0();
-
+    const { userName } = useContext(GlobalContext);
     return (
         isAuthenticated && (
-            <Button header={header} hover={hover} onClick={() => logout()}>Log Out</Button>
+            <Button header={header} hover={hover} onClick={() => logout()}>Hello {userName}</Button>
             )
         );
 };
@@ -24,6 +25,7 @@ const Button = styled.button`
     font-size: 18px;
     font-family:'Jost', sans-serif;
     border-radius: 40px;
+
 
     ${({header}) => header && `--background-color: transparent; --font-color: white;`}
 
