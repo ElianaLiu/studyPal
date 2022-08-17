@@ -51,7 +51,7 @@ background: rgba(255,255,255, 0.8);
 `
 
 const Logo = styled.img`
-width: 5vw;
+width: 70px;
 cursor: pointer;
 margin: 20px;
 `
