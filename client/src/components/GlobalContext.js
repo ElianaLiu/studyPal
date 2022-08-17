@@ -15,7 +15,6 @@ export const GlobalContextProvider = ({children}) => {
     // get a list of unique subjects
     const getSubjects = (data) => {
         let subjects = [...new Set(data.map(item => item.subject))];
-        console.log(subjects);
         setSubjectList(subjects);
     }
 
@@ -26,7 +25,6 @@ export const GlobalContextProvider = ({children}) => {
             fetch(`/api/all-questions/${userId}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setQuestionCollection(data.data);
                 getSubjects(data.data)
                 setStatus("idle")
@@ -43,7 +41,6 @@ export const GlobalContextProvider = ({children}) => {
     // set userId and username after login
     useEffect(() => {
         if (isAuthenticated) {
-            console.log(user);
             setUserId(user.sub);
             (user.given_name !== "" && user.given_name)  ?
                 setUserName(user.given_name):
@@ -62,7 +59,6 @@ export const GlobalContextProvider = ({children}) => {
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data.data);
             })
             .catch((error) => {
                 console.log(error);

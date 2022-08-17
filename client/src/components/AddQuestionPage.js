@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
@@ -39,8 +39,6 @@ const AddQuestionPage = () =>{
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
-            console.log(data.ParsedResults[0].ParsedText); //get the text result
             
             // check which input field corresponds to this file and update their value accordingly
             flag == 1 ? setQuestion(data.ParsedResults[0].ParsedText) : setAnswer(data.ParsedResults[0].ParsedText)
@@ -77,8 +75,6 @@ const AddQuestionPage = () =>{
             answer: answer
         };
 
-        console.log(newQuestion);
-
         // call add-question api to submit the question content
         fetch(`/api/add-question/${userId}`, {
             method: "POST",
@@ -87,7 +83,6 @@ const AddQuestionPage = () =>{
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data.data);
             // change updateCollection value to trigger question collection update in GlobalContext
             setUpdateCollection(!updateCollection); 
         })
@@ -131,7 +126,7 @@ const AddQuestionPage = () =>{
                     onChange={(e) => uploadImage(e, 1)} />          
                 </QuestionWrapper>
                 <QuestionWrapper>
-                <Label>Category</Label>
+                <Label>Subject</Label>
                 <InputStem
                     type='textarea'
                     value={subject}

@@ -22,13 +22,6 @@
                 "stem": "Which figure of speech is used in this text?",
                 "question": " I've heard that Eva & Co. is downsizing, so I'm happy to see that their store in downtown Drummondville will remain open for now.",
                 "answer": "euphemism. A euphemism is a polite or indirect expression that is used to de-emphasize an unpleasant topic. e.g.The head of Human Resources would never refer to firing people, only to laying them off"
-            },
-            {
-                "_id": "00004",
-                "subject": "ENGLISH",
-                "stem": "Read the passage. Then, select the synonym of fallacious",
-                "question": " I've heard that Eva & Co. is downsizing, so I'm happy to see that their store in downtown Drummondville will remain open for now.",
-                "answer": "euphemism. A euphemism is a polite or indirect expression that is used to de-emphasize an unpleasant topic. e.g.The head of Human Resources would never refer to firing people, only to laying them off"
             }
         ]
     }

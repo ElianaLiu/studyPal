@@ -3,10 +3,7 @@ import video from "../data/video- background.mp4";
 
 import { useNavigate } from "react-router-dom";
 import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
-import { useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { GlobalContext } from "./GlobalContext";
 import Header from "./Header";
 
 // "/" route page component
@@ -121,15 +118,6 @@ const ContentTitle = styled.h1`
   font-size: 45px;
   margin-bottom: 5%;
 `;
-
-
-const AnimatedContentTitle = styled(ContentTitle)`
-  animation: ${slideleft} 1s linear forwards;
-`
-
-const MyCollection = styled.button`
-
-`
 
 
 export default SignInPage;

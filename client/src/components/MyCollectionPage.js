@@ -23,7 +23,6 @@ const MyCollectionPage = () => {
         } else { 
             // filter questions with the selected subject
             let newQuestionArray = questionCollection.filter((question) => {
-                console.log(question.subject)
                 return question.subject === subject;
             });
             // set selectedQuestions with the filtered questions
@@ -48,9 +47,7 @@ const MyCollectionPage = () => {
                             onClick={(e) => {handleClick(e, "All")}}>
                             All
                         </Btn>
-                        {/* <Btn>All</Btn>
-                        <Btn>MATH</Btn>
-                        <Btn>ENGLISH</Btn> */}
+
                         {subjectList.map((subject) => {
                             return (
                                 <Btn

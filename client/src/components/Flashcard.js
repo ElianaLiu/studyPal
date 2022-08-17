@@ -32,7 +32,6 @@ const Flashcard = ({content}) => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             // change updateCollection value to trigger question collection update in GlobalContext
             setUpdateCollection(!updateCollection)
         })
