@@ -13,16 +13,20 @@ const MyCollectionPage = () => {
     const { isAuthenticated } = useAuth0();  
     const [selectedQuestions, setSelectedQuestions] = useState(null)
     
+    // filter question list according to subject selection
     const handleClick = (e, subject) => {
         e.preventDefault()
 
+        // if "All" buttion is clicked, show all questions
         if (subject === "All") {
             setSelectedQuestions(null);
-        } else {
+        } else { 
+            // filter questions with the selected subject
             let newQuestionArray = questionCollection.filter((question) => {
                 console.log(question.subject)
                 return question.subject === subject;
             });
+            // set selectedQuestions with the filtered questions
             setSelectedQuestions(newQuestionArray);
         }
     }

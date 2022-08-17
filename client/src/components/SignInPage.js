@@ -9,11 +9,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { GlobalContext } from "./GlobalContext";
 import Header from "./Header";
 
-// PAGE COMPONENT FOR "/" route
+// "/" route page component
 // --------------------------------------------
 
 const SignInPage = () => {
-  const {questionCollection, status} = useContext(GlobalContext);
   const { isAuthenticated } = useAuth0();
   let navigate = useNavigate();
 

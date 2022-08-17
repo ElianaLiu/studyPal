@@ -12,12 +12,14 @@ export const GlobalContextProvider = ({children}) => {
     const [updateCollection, setUpdateCollection] = useState(false);
     const [subjectList, setSubjectList] = useState(null)
 
+    // get a list of unique subjects
     const getSubjects = (data) => {
         let subjects = [...new Set(data.map(item => item.subject))];
         console.log(subjects);
         setSubjectList(subjects);
     }
 
+    // when user signed in, get all questions saved for this user
     useEffect(() => {
         if (userId) {
             setStatus("loading");
@@ -38,11 +40,33 @@ export const GlobalContextProvider = ({children}) => {
         }
     }, [userId, updateCollection]);
 
+    // set userId and username after login
     useEffect(() => {
         if (isAuthenticated) {
             console.log(user);
             setUserId(user.sub);
-            setUserName(user.given_name);
+            (user.given_name !== "" && user.given_name)  ?
+                setUserName(user.given_name):
+                setUserName(user.nickname)
+
+            // add user if doesn't exist in database
+            fetch(`/api/patch-user`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    _id: user.sub,
+                    email: user.email,
+                    name: user.name,
+                    nickname: user.nickname,
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
         } else {
             setUserId(null)
         }

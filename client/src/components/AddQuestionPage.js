@@ -17,15 +17,18 @@ const AddQuestionPage = () =>{
     const [answer, setAnswer] = useState("");
     const navigate = useNavigate();
 
+    // upload image to OCR API to extract the text
     const uploadImage = async (e, flag) => {
+        // get uploaded file
         const file = e.target.files[0];
+        // call convertBase64 function to convert the uploaded file
         const base64 = await convertBase64(file);
-        console.log(base64);
-        console.log(process.env.REACT_APP_OCR_APIKEY)
         
+        // create a multip-part form data
         const formData = new FormData();
         formData.append('base64Image', base64);
 
+        // call OCR api to extract text from base64 image file
         fetch("https://api.ocr.space/parse/image", {
             // mode: 'no-cors',
             method: "POST",
@@ -37,8 +40,9 @@ const AddQuestionPage = () =>{
         .then(response => response.json())
         .then(data => {
             console.log(data)
-            console.log(data.ParsedResults[0].ParsedText);
+            console.log(data.ParsedResults[0].ParsedText); //get the text result
             
+            // check which input field corresponds to this file and update their value accordingly
             flag == 1 ? setQuestion(data.ParsedResults[0].ParsedText) : setAnswer(data.ParsedResults[0].ParsedText)
         })
         .catch((error) => {
@@ -46,6 +50,7 @@ const AddQuestionPage = () =>{
         });
     }
 
+    // convert image file to base64 string
     const convertBase64 = (file) => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
@@ -60,9 +65,11 @@ const AddQuestionPage = () =>{
         })
     }
 
+    // submit a question to backend
     const submitQuestion = (e) => {
         e.preventDefault()
 
+        // create an object containing all values from input fields
         const newQuestion = {
             stem: stem,
             subject: subject.toUpperCase(),
@@ -72,6 +79,7 @@ const AddQuestionPage = () =>{
 
         console.log(newQuestion);
 
+        // call add-question api to submit the question content
         fetch(`/api/add-question/${userId}`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -80,16 +88,20 @@ const AddQuestionPage = () =>{
         .then(response => response.json())
         .then(data => {
             console.log(data.data);
-            setUpdateCollection(!updateCollection);
+            // change updateCollection value to trigger question collection update in GlobalContext
+            setUpdateCollection(!updateCollection); 
         })
         .catch((error) => {
             console.log(error);
         });
 
+        // reset all input fields
         setStem("");
         setSubject("");
         setQuestion("");
         setAnswer("");
+
+        //nabigate to homepage
         navigate("/homepage");
     }
 

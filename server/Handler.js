@@ -19,6 +19,8 @@ const getAllQuestions = async (req, res) => {
         await client.connect();
         const db = client.db("StudyPal");
         const result = await db.collection("questions").findOne({_id});
+        
+        // check if userId exist
         if (result) {
             res.status(200).json({ status: 200, data: result.questions});
         } else {
@@ -39,7 +41,7 @@ const getAllQuestions = async (req, res) => {
 
 // Endpoints for adding a question
 const addQuestion = async (req, res) => {
-    const questionContent = req.body; // {subject: subject, stem: stem, question: question, answer: answer}
+    const questionContent = req.body;
     console.log(questionContent)
     const _id = req.params.userId;
     const client = new MongoClient(MONGO_URI, options);
@@ -48,8 +50,9 @@ const addQuestion = async (req, res) => {
         await client.connect();
         const db = client.db("StudyPal");
         const result = await db.collection("questions").findOne({_id});
+
+        // check if userId exist
         if (result) {
-            // console.log(result.questions)
             result.questions.push({_id: uuidv4(), ...questionContent}),
             await db.collection("questions").updateOne({ _id }, { $set: result });
             res.status(201).json({ status: 200, data: result });
@@ -80,8 +83,9 @@ const deleteQuestion = async (req, res) => {
         await client.connect();
         const db = client.db("StudyPal");
         const result = await db.collection("questions").findOne({_id});
+
+        // check if userId exist
         if (result) {
-            // console.log(result.questions)
             let newQuestions = result.questions.filter((item) => {
                 return item._id !== questionId;
             });
@@ -103,9 +107,36 @@ const deleteQuestion = async (req, res) => {
     client.close()
 };
 
+// Endpoints for patching a user
+const patchUser = async (req, res) => {
+    const _id = req.body._id;
+    const userInfo = req.body
+    const client = new MongoClient(MONGO_URI, options);
+
+    try {
+        await client.connect();
+        const db = client.db("StudyPal");
+        const result = await db.collection("users").findOne({_id});
+
+        // check if userId exist
+        if (result) {
+            await db.collection("users").updateOne({ _id }, { $set: userInfo });
+            res.status(200).json({ status: 200, data: userInfo, message: "User patched" });
+        } else {
+            await db.collection("users").insertOne(userInfo);
+            res.status(201).json({ status: 201, data: userInfo, message: "User added" });
+        }  
+    } catch (err) {
+        console.log(err.stack);
+        res.status(500).json({ status: 500, data: req.body, message: err.message });
+    }
+
+    client.close()
+};
 
 module.exports = {
     getAllQuestions,
     addQuestion,
     deleteQuestion,
+    patchUser,
 };
